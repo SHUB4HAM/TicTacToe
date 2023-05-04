@@ -25,14 +25,14 @@ public class GameController {
     public void makeMove(Game game){
         game.makeMove();
     }
-    void undo(Game game){
-
+    public void undo(Game game){
+        game.undo();
     }
     public GameState checkState(Game game){
         return game.getGameState();
     }
-    void getWinner(Game game){
-
+    public Player getWinner(Game game){
+        return game.getWinner();
     }
     public void printBoard(Game game){
         game.printBoard();

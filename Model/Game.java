@@ -106,6 +106,27 @@ public class Game {
         }
     }
 
+    public void undo(){
+        if(moves.size() == 0){
+            System.out.println("No move to undo");
+            return;
+        }
+        Move lastMove = moves.remove(moves.size()-1);
+
+        Cell cell = lastMove.getCell();
+
+        cell.setCellState(CellState.EMPTY);
+        cell.setPlayer(null);
+
+        for(WinningStrategy winningStrategy: winningStrategies){
+            winningStrategy.handleUndo(board, lastMove);
+        }
+
+        nextMovePlayerIndex -= 1;
+        nextMovePlayerIndex = (nextMovePlayerIndex + players.size()) % players.size();
+
+    }
+
     public void printBoard(){
         board.printBoard();
     }
@@ -167,11 +188,12 @@ public class Game {
         if(checkWinner(finalMoveObject)){
             gameState = GameState.WIN;
             winner = currMovePlayer;
+            return;
         }
 
         if(moves.size() == (this.board.getSize() * this.board.getSize())){
             gameState = GameState.DRAW;
-
+            return;
         }
     }
 
